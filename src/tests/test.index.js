@@ -1,8 +1,7 @@
 const units = require('../index.js'); // eslint-disable-line
 const BigNumber = require('bn.js'); // eslint-disable-line
 const ActualBigNumber = require('bignumber.js');
-const Web3 = require('web3'); // eslint-disable-line
-const web3 = new Web3(); // eslint-disable-line
+const web3Utils = require('web3').utils; // eslint-disable-line
 const assert = require('chai').assert; // eslint-disable-line
 const totalTypes = Object.keys(units.unitMap).length;
 
@@ -10,7 +9,7 @@ function testRandomValueAgainstWeb3ToWei(negative) {
   const stringTestValue = `${negative ? '-' : ''}${String(Math.floor((Math.random() * 100000000000000000) + 1))}`;
   const randomunitsType = Object.keys(units.unitMap)[Math.floor((Math.random() * (totalTypes - 1)) + 1)];
   const unitsValue = units.toWei(stringTestValue, randomunitsType);
-  const web3Value = new BigNumber(web3.toWei(stringTestValue, randomunitsType));
+  const web3Value = new BigNumber(web3Utils.toWei(stringTestValue, randomunitsType));
 
   // it(`toWei should work like web3 val ${unitsValue.toString(10)} should equal ${web3Value.toString(10)}`, () => {
   assert.deepEqual(unitsValue, web3Value);
@@ -21,7 +20,7 @@ function testRandomValueAgainstWeb3FromWei(negative) {
   const stringTestValue = `${negative ? '-' : ''}${String(Math.floor((Math.random() * 100000000000000000) + 1))}`;
   const randomunitsType = Object.keys(units.unitMap)[Math.floor((Math.random() * (totalTypes - 1)) + 1)];
   const unitsValue = units.fromWei(stringTestValue, randomunitsType);
-  const web3Value = web3.fromWei(stringTestValue, randomunitsType);
+  const web3Value = web3Utils.fromWei(stringTestValue, randomunitsType);
 
   // it(`fromWei should work like web3 rounded val ${unitsValue.substr(0, web3Value.length - 1)} should equal ${web3Value.substr(0, web3Value.length - 1)} for unit type ${randomunitsType}`, () => {
   assert.deepEqual(unitsValue.substr(0, web3Value.length - 1), web3Value.substr(0, web3Value.length - 1));
