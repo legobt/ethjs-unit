@@ -33,7 +33,7 @@ npm run build
 npm run lint
 ```
 
-## test coverage
+## Test Coverage
 
 Note, this will generate a coverage report locally.
 
