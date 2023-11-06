@@ -1,5 +1,5 @@
 {
-  "name": "ethjs-unit",
+  "name": "@metamask/ethjs-unit",
   "version": "0.1.6",
   "description": "A simple module for handling Ethereum units (e.g. 'ether', 'wei', etc...)",
   "main": "lib/index.js",
@@ -186,7 +186,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/ethjs/ethjs-unit"
+    "url": "https://github.com/MetaMask/ethjs-unit"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "license": "MIT",
   "eslintConfig": {

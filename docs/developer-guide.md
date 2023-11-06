@@ -5,13 +5,13 @@ All information regarding contributing to and progressing `ethjs-unit` module ca
 ## Install
 
 ```
-npm install --save ethjs-unit
+npm install --save @metamask/ethjs-unit
 ```
 
 ## Install from Source
 
 ```
-git clone http://github.com/ethjs/ethjs-unit
+git clone http://github.com/MetaMask/ethjs-unit
 npm install
 ```
 
@@ -33,15 +33,15 @@ npm run build
 npm run lint
 ```
 
-## Travis-ci and Coveralls Testing
+## Test Coverage
 
-Note, this will generate a `coveralls` report locally.
+Note, this will generate a coverage report locally.
 
 ```
-npm run test-travis
+npm run test:coverage
 ```
 
-You can find the coveralls report and view the percentages and stats, by going to the [index.html](coverage/lcov-report/index.html) file generated after running the `test-travis` script. Open this in Chrome to see the generated report. Travis will run mocha as usual, but collect information about the testing coverage. This report will be sent by TravisCI during the automated build process.
+You can find the coveralls report and view the percentages and stats, by going to the [index.html](coverage/lcov-report/index.html) file generated after running the `test:coverage` script. Open this in a web browser to see the generated report.
 
 ## Build Staging
 
@@ -85,8 +85,8 @@ After build staging it is the `lib` folder which actually gets published to NPM.
 ## NPM/Node Version Requirements
 
 `ethjs` requires you have:
-  - `nodejs` -v 6.5.0+
-  - `npm` -v 3.0+
+  - `nodejs` -v 8.17.0+
+  - `npm` -v 6.0+
 
 This is a requirement to run, test, lint and build this module.
 
@@ -100,10 +100,6 @@ https://github.com/webpack/docs
 ## Changelog
 
 All relevant changes are notated in the `CHANGELOG.md` file, moniter this file for changes to this repository.
-
-## Travis-ci and Coveralls Practice
-
-Across all `ethjs-` repos, we enforce mandatory travis-ci and coveralls testing. We never `commit to master`. As a general policy, Coveralls.io results must always be above 95% for any `ethjs-` PR or commit. We want to ensure complete coverage across the board.
 
 ## Contributing
 
