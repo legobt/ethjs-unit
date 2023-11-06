@@ -1,31 +1,10 @@
 ## ethjs-unit
 
 <div>
-  <!-- Dependency Status -->
-  <a href="https://david-dm.org/ethjs/ethjs-unit">
-    <img src="https://david-dm.org/ethjs/ethjs-unit.svg"
-    alt="Dependency Status" />
-  </a>
-
-  <!-- devDependency Status -->
-  <a href="https://david-dm.org/ethjs/ethjs-unit#info=devDependencies">
-    <img src="https://david-dm.org/ethjs/ethjs-unit/dev-status.svg" alt="devDependency Status" />
-  </a>
-
   <!-- NPM Version -->
-  <a href="https://www.npmjs.org/package/ethjs-unit">
-    <img src="http://img.shields.io/npm/v/ethjs-unit.svg"
+  <a href="https://www.npmjs.org/package/@metamask/ethjs-unit">
+    <img src="http://img.shields.io/npm/v/@metamask/ethjs-unit.svg"
     alt="NPM version" />
-  </a>
-
-  <!-- Test Coverage -->
-  <a href="https://coveralls.io/r/ethjs/ethjs-unit">
-    <img src="https://coveralls.io/repos/github/ethjs/ethjs-unit/badge.svg" alt="Test Coverage" />
-  </a>
-
-  <!-- Javascript Style -->
-  <a href="http://airbnb.io/javascript/">
-    <img src="https://img.shields.io/badge/code%20style-airbnb-brightgreen.svg" alt="js-airbnb-style" />
   </a>
 </div>
 
@@ -36,13 +15,13 @@ A simple module for handling Ethereum unit convertion.
 ## Install
 
 ```
-npm install --save ethjs-unit
+npm install --save @metamask/ethjs-unit
 ```
 
 ## Usage
 
 ```js
-const unit = require('ethjs-unit');
+const unit = require('@metamask/ethjs-unit');
 
 var val1 = unit.toWei(249824778, 'ether');
 
@@ -138,13 +117,13 @@ There is always a lot of work to do, and will have many rules to maintain. So pl
 
 Please consult our [Code of Conduct](CODE_OF_CONDUCT.md) docs before helping out.
 
-We communicate via [issues](https://github.com/ethjs/ethjs-unit/issues) and [pull requests](https://github.com/ethjs/ethjs-unit/pulls).
+We communicate via [issues](https://github.com/MetaMask/ethjs-unit/issues) and [pull requests](https://github.com/MetaMask/ethjs-unit/pulls).
 
 ## Important documents
 
 - [Changelog](CHANGELOG.md)
 - [Code of Conduct](CODE_OF_CONDUCT.md)
-- [License](https://raw.githubusercontent.com/ethjs/ethjs-unit/master/LICENSE)
+- [License](https://raw.githubusercontent.com/MetaMask/ethjs-unit/master/LICENSE)
 
 ## Licence
 
