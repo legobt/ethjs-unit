@@ -7,16 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ## [0.2.0]
-### Uncategorized
-- chore: format CHANGELOG.md ([#8](https://github.com/MetaMask/ethjs-unit/pull/8))
-- rename package from ethjs-unit to @metamask/ethjs-unit ([#7](https://github.com/MetaMask/ethjs-unit/pull/7))
-- Update devDependencies ([#6](https://github.com/MetaMask/ethjs-unit/pull/6))
-- deprecate nodejs <8.17, npm<6 ([#5](https://github.com/MetaMask/ethjs-unit/pull/5))
-- npm dedupe. npm audit fix
-- devDeps: web3@0.17.0-beta->1.2.6
-- ci: Move from Travis to GitHub Actions ([#3](https://github.com/MetaMask/ethjs-unit/pull/3))
-- add package-lock.json, regenerate dist ([#4](https://github.com/MetaMask/ethjs-unit/pull/4))
-- Update index.js
+### Changed
+- Rename package from `ethjs-unit` to `@metamask/ethjs-unit` ([#7](https://github.com/MetaMask/ethjs-unit/pull/7))
+- Deprecate nodejs <8.17, npm<6 ([#5](https://github.com/MetaMask/ethjs-unit/pull/5))
 
 ## [0.1.6]
 ### Changed
