@@ -1,28 +1,51 @@
-# 0.1.5 -- update bn formatting
+# Changelog
+All notable changes to this project will be documented in this file.
 
-1. Update bn formatting
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# 0.1.3 -- config fixes
+## [Unreleased]
 
-1. webpack config updates
-2. build config updates
+## [0.1.6]
+### Changed
+- Bump number-to-bn from 1.6.0 to 1.7.0
 
-# 0.1.2 -- removed BigNumber's, replaced with all BN.js
+## [0.1.5]
+### Changed
+- Update bn formatting
 
-1. new approach with BN.js and absolute precision
-2. more coverage
-3. more docs
+## [0.1.3]
+### Fixed
+- webpack config updates
+- build config updates
 
-# 0.0.2 -- ethjs-unit
+## [0.1.2]
+### Changed
+- removed BigNumber's, replaced with all BN.js
+  - new approach with BN.js and absolute precision
+  - more coverage
+  - more docs
 
-1. More test coverage
-2. Config
-3. More docs
+## [0.0.2]
+### Changed
+- ethjs-unit
+  - More test coverage
+  - Config
+  - More docs
 
-# 0.0.1 -- ethjs-unit
+## [0.0.1]
+### Added
+- ethjs-unit
+  - Basic testing
+  - Basic docs
+  - License
+  - Linting
+  - Basic exports
 
-1. Basic testing
-2. Basic docs
-3. License
-4. Linting
-5. Basic exports
+[Unreleased]: https://github.com/MetaMask/ethjs-unit/compare/v0.1.6...HEAD
+[0.1.6]: https://github.com/MetaMask/ethjs-unit/compare/v0.1.5...v0.1.6
+[0.1.5]: https://github.com/MetaMask/ethjs-unit/compare/v0.1.3...v0.1.5
+[0.1.3]: https://github.com/MetaMask/ethjs-unit/compare/v0.1.2...v0.1.3
+[0.1.2]: https://github.com/MetaMask/ethjs-unit/compare/v0.0.2...v0.1.2
+[0.0.2]: https://github.com/MetaMask/ethjs-unit/compare/v0.0.1...v0.0.2
+[0.0.1]: https://github.com/MetaMask/ethjs-unit/releases/tag/v0.0.1
