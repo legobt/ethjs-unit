@@ -12,12 +12,6 @@
     <img src="https://david-dm.org/ethjs/ethjs-unit/dev-status.svg" alt="devDependency Status" />
   </a>
 
-  <!-- Build Status -->
-  <a href="https://travis-ci.org/ethjs/ethjs-unit">
-    <img src="https://travis-ci.org/ethjs/ethjs-unit.svg"
-    alt="Build Status" />
-  </a>
-
   <!-- NPM Version -->
   <a href="https://www.npmjs.org/package/ethjs-unit">
     <img src="http://img.shields.io/npm/v/ethjs-unit.svg"
