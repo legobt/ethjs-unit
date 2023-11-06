@@ -188,6 +188,10 @@
     "type": "git",
     "url": "https://github.com/MetaMask/ethjs-unit"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "license": "MIT",
   "eslintConfig": {
     "parser": "babel-eslint",
