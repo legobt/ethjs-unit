@@ -8,7 +8,7 @@
 		exports["ethUnit"] = factory();
 	else
 		root["ethUnit"] = factory();
-})(this, function() {
+})(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -17,9 +17,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -44,16 +44,24 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 /******/
-/******/ 	// identity function for calling harmory imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
-/******/
-/******/ 	// define getter function for harmory exports
+/******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		Object.defineProperty(exports, name, {
-/******/ 			configurable: false,
-/******/ 			enumerable: true,
-/******/ 			get: getter
-/******/ 		});
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
 /******/ 	};
 /******/
 /******/ 	// Object.prototype.hasOwnProperty.call
@@ -63,12 +71,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {(function (module, exports) {
   'use strict';
@@ -122,7 +130,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
   var Buffer;
   try {
-    Buffer = __webpack_require__(1).Buffer;
+    Buffer = __webpack_require__(3).Buffer;
   } catch (e) {
   }
 
@@ -3498,14 +3506,225 @@ return /******/ (function(modules) { // webpackBootstrap
   };
 })(typeof module === 'undefined' || module, this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(Buffer, global) {/*!
+
+
+/*
+Primary Attribution
+Richard Moore <ricmoo@me.com>
+https://github.com/ethers-io
+
+Note, Richard is a god of ether gods. Follow and respect him, and use Ethers.io!
+*/
+
+var BN = __webpack_require__(0);
+var numberToBN = __webpack_require__(8);
+
+var zero = new BN(0);
+var negative1 = new BN(-1);
+
+// complete ethereum unit map
+var unitMap = {
+  'noether': '0', // eslint-disable-line
+  'wei': '1', // eslint-disable-line
+  'kwei': '1000', // eslint-disable-line
+  'Kwei': '1000', // eslint-disable-line
+  'babbage': '1000', // eslint-disable-line
+  'femtoether': '1000', // eslint-disable-line
+  'mwei': '1000000', // eslint-disable-line
+  'Mwei': '1000000', // eslint-disable-line
+  'lovelace': '1000000', // eslint-disable-line
+  'picoether': '1000000', // eslint-disable-line
+  'gwei': '1000000000', // eslint-disable-line
+  'Gwei': '1000000000', // eslint-disable-line
+  'shannon': '1000000000', // eslint-disable-line
+  'nanoether': '1000000000', // eslint-disable-line
+  'nano': '1000000000', // eslint-disable-line
+  'szabo': '1000000000000', // eslint-disable-line
+  'microether': '1000000000000', // eslint-disable-line
+  'micro': '1000000000000', // eslint-disable-line
+  'finney': '1000000000000000', // eslint-disable-line
+  'milliether': '1000000000000000', // eslint-disable-line
+  'milli': '1000000000000000', // eslint-disable-line
+  'ether': '1000000000000000000', // eslint-disable-line
+  'kether': '1000000000000000000000', // eslint-disable-line
+  'grand': '1000000000000000000000', // eslint-disable-line
+  'mether': '1000000000000000000000000', // eslint-disable-line
+  'gether': '1000000000000000000000000000', // eslint-disable-line
+  'tether': '1000000000000000000000000000000' // eslint-disable-line
+};
+
+/**
+ * Returns value of unit in Wei
+ *
+ * @method getValueOfUnit
+ * @param {String} unit the unit to convert to, default ether
+ * @returns {BigNumber} value of the unit (in Wei)
+ * @throws error if the unit is not correct:w
+ */
+function getValueOfUnit(unitInput) {
+  var unit = unitInput ? unitInput.toLowerCase() : 'ether';
+  var unitValue = unitMap[unit]; // eslint-disable-line
+
+  if (typeof unitValue !== 'string') {
+    throw new Error('[ethjs-unit] the unit provided ' + unitInput + ' doesn\'t exists, please use the one of the following units ' + JSON.stringify(unitMap, null, 2));
+  }
+
+  return new BN(unitValue, 10);
+}
+
+function numberToString(arg) {
+  if (typeof arg === 'string') {
+    if (!arg.match(/^-?[0-9.]+$/)) {
+      throw new Error('while converting number to string, invalid number value \'' + arg + '\', should be a number matching (^-?[0-9.]+).');
+    }
+    return arg;
+  } else if (typeof arg === 'number') {
+    return String(arg);
+  } else if (typeof arg === 'object' && arg.toString && (arg.toTwos || arg.dividedToIntegerBy)) {
+    if (arg.toPrecision) {
+      return String(arg.toPrecision());
+    } else {
+      // eslint-disable-line
+      return arg.toString(10);
+    }
+  }
+  throw new Error('while converting number to string, invalid number value \'' + arg + '\' type ' + typeof arg + '.');
+}
+
+function fromWei(weiInput, unit, optionsInput) {
+  var wei = numberToBN(weiInput); // eslint-disable-line
+  var negative = wei.lt(zero); // eslint-disable-line
+  var base = getValueOfUnit(unit);
+  var baseLength = unitMap[unit].length - 1 || 1;
+  var options = optionsInput || {};
+
+  if (negative) {
+    wei = wei.mul(negative1);
+  }
+
+  var fraction = wei.mod(base).toString(10); // eslint-disable-line
+
+  while (fraction.length < baseLength) {
+    fraction = '0' + fraction;
+  }
+
+  if (!options.pad) {
+    fraction = fraction.match(/^([0-9]*[1-9]|0)(0*)/)[1];
+  }
+
+  var whole = wei.div(base).toString(10); // eslint-disable-line
+
+  if (options.commify) {
+    whole = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  var value = '' + whole + (fraction == '0' ? '' : '.' + fraction); // eslint-disable-line
+
+  if (negative) {
+    value = '-' + value;
+  }
+
+  return value;
+}
+
+function toWei(etherInput, unit) {
+  var ether = numberToString(etherInput); // eslint-disable-line
+  var base = getValueOfUnit(unit);
+  var baseLength = unitMap[unit].length - 1 || 1;
+
+  // Is it negative?
+  var negative = ether.substring(0, 1) === '-'; // eslint-disable-line
+  if (negative) {
+    ether = ether.substring(1);
+  }
+
+  if (ether === '.') {
+    throw new Error('[ethjs-unit] while converting number ' + etherInput + ' to wei, invalid value');
+  }
+
+  // Split it into a whole and fractional part
+  var comps = ether.split('.'); // eslint-disable-line
+  if (comps.length > 2) {
+    throw new Error('[ethjs-unit] while converting number ' + etherInput + ' to wei,  too many decimal points');
+  }
+
+  var whole = comps[0],
+      fraction = comps[1]; // eslint-disable-line
+
+  if (!whole) {
+    whole = '0';
+  }
+  if (!fraction) {
+    fraction = '0';
+  }
+  if (fraction.length > baseLength) {
+    throw new Error('[ethjs-unit] while converting number ' + etherInput + ' to wei, too many decimal places');
+  }
+
+  while (fraction.length < baseLength) {
+    fraction += '0';
+  }
+
+  whole = new BN(whole);
+  fraction = new BN(fraction);
+  var wei = whole.mul(base).add(fraction); // eslint-disable-line
+
+  if (negative) {
+    wei = wei.mul(negative1);
+  }
+
+  return new BN(wei.toString(10), 10);
+}
+
+module.exports = {
+  unitMap: unitMap,
+  numberToString: numberToString,
+  getValueOfUnit: getValueOfUnit,
+  fromWei: fromWei,
+  toWei: toWei
+};
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {/*!
  * The buffer module from node.js, for the browser.
  *
  * @author   Feross Aboukhadijeh <http://feross.org>
@@ -3513,10 +3732,10 @@ return /******/ (function(modules) { // webpackBootstrap
  */
 /* eslint-disable no-proto */
 
-'use strict'
 
-var base64 = __webpack_require__(4)
-var ieee754 = __webpack_require__(5)
+
+var base64 = __webpack_require__(5)
+var ieee754 = __webpack_require__(6)
 var isArray = __webpack_require__(7)
 
 exports.Buffer = Buffer
@@ -5295,241 +5514,41 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer, __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
-/***/ },
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-var BN = __webpack_require__(0);
-var stripHexPrefix = __webpack_require__(8);
-
-/**
- * Returns a BN object, converts a number value to a BN
- * @param {String|Number|Object} `arg` input a string number, hex string number, number, BigNumber or BN object
- * @return {Object} `output` BN object of the number
- * @throws if the argument is not an array, object that isn't a bignumber, not a string number or number
- */
-module.exports = function numberToBN(arg) {
-  if (typeof arg === 'string' || typeof arg === 'number') {
-    var multiplier = new BN(1); // eslint-disable-line
-    var formattedString = String(arg).toLowerCase().trim();
-    var isHexPrefixed = formattedString.substr(0, 2) === '0x' || formattedString.substr(0, 3) === '-0x';
-    var stringArg = stripHexPrefix(formattedString); // eslint-disable-line
-    if (stringArg.substr(0, 1) === '-') {
-      stringArg = stripHexPrefix(stringArg.slice(1));
-      multiplier = new BN(-1, 10);
-    }
-    stringArg = stringArg === '' ? '0' : stringArg;
-
-    if ((!stringArg.match(/^-?[0-9]+$/) && stringArg.match(/^[0-9A-Fa-f]+$/))
-      || stringArg.match(/^[a-fA-F]+$/)
-      || (isHexPrefixed === true && stringArg.match(/^[0-9A-Fa-f]+$/))) {
-      return new BN(stringArg, 16).mul(multiplier);
-    }
-
-    if ((stringArg.match(/^-?[0-9]+$/) || stringArg === '') && isHexPrefixed === false) {
-      return new BN(stringArg, 10).mul(multiplier);
-    }
-  } else if (typeof arg === 'object' && arg.toString && (!arg.pop && !arg.push)) {
-    if (arg.toString(10).match(/^-?[0-9]+$/) && (arg.mul || arg.dividedToIntegerBy)) {
-      return new BN(arg.toString(10), 10);
-    }
-  }
-
-  throw new Error('[number-to-bn] while converting number ' + JSON.stringify(arg) + ' to BN.js instance, error: invalid number value. Value must be an integer, hex string, BN or BigNumber instance. Note, decimals are not supported.');
-}
-
-
-/***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-'use strict';
-
-/*
-Primary Attribution
-Richard Moore <ricmoo@me.com>
-https://github.com/ethers-io
-
-Note, Richard is a god of ether gods. Follow and respect him, and use Ethers.io!
-*/
-
-var BN = __webpack_require__(0);
-var numberToBN = __webpack_require__(2);
-
-var zero = new BN(0);
-var negative1 = new BN(-1);
-
-// complete ethereum unit map
-var unitMap = {
-  'noether': '0', // eslint-disable-line
-  'wei': '1', // eslint-disable-line
-  'kwei': '1000', // eslint-disable-line
-  'Kwei': '1000', // eslint-disable-line
-  'babbage': '1000', // eslint-disable-line
-  'femtoether': '1000', // eslint-disable-line
-  'mwei': '1000000', // eslint-disable-line
-  'Mwei': '1000000', // eslint-disable-line
-  'lovelace': '1000000', // eslint-disable-line
-  'picoether': '1000000', // eslint-disable-line
-  'gwei': '1000000000', // eslint-disable-line
-  'Gwei': '1000000000', // eslint-disable-line
-  'shannon': '1000000000', // eslint-disable-line
-  'nanoether': '1000000000', // eslint-disable-line
-  'nano': '1000000000', // eslint-disable-line
-  'szabo': '1000000000000', // eslint-disable-line
-  'microether': '1000000000000', // eslint-disable-line
-  'micro': '1000000000000', // eslint-disable-line
-  'finney': '1000000000000000', // eslint-disable-line
-  'milliether': '1000000000000000', // eslint-disable-line
-  'milli': '1000000000000000', // eslint-disable-line
-  'ether': '1000000000000000000', // eslint-disable-line
-  'kether': '1000000000000000000000', // eslint-disable-line
-  'grand': '1000000000000000000000', // eslint-disable-line
-  'mether': '1000000000000000000000000', // eslint-disable-line
-  'gether': '1000000000000000000000000000', // eslint-disable-line
-  'tether': '1000000000000000000000000000000' // eslint-disable-line
-};
-
-/**
- * Returns value of unit in Wei
- *
- * @method getValueOfUnit
- * @param {String} unit the unit to convert to, default ether
- * @returns {BigNumber} value of the unit (in Wei)
- * @throws error if the unit is not correct:w
- */
-function getValueOfUnit(unitInput) {
-  var unit = unitInput ? unitInput.toLowerCase() : 'ether';
-  var unitValue = unitMap[unit]; // eslint-disable-line
-
-  if (typeof unitValue !== 'string') {
-    throw new Error('[ethjs-unit] the unit provided ' + unitInput + ' doesn\'t exists, please use the one of the following units ' + JSON.stringify(unitMap, null, 2));
-  }
-
-  return new BN(unitValue, 10);
-}
-
-function numberToString(arg) {
-  if (typeof arg === 'string') {
-    if (!arg.match(/^-?[0-9.]+$/)) {
-      throw new Error('while converting number to string, invalid number value \'' + arg + '\', should be a number matching (^-?[0-9.]+).');
-    }
-    return arg;
-  } else if (typeof arg === 'number') {
-    return String(arg);
-  } else if (typeof arg === 'object' && arg.toString && (arg.toTwos || arg.dividedToIntegerBy)) {
-    if (arg.toPrecision) {
-      return String(arg.toPrecision());
-    } else {
-      // eslint-disable-line
-      return arg.toString(10);
-    }
-  }
-  throw new Error('while converting number to string, invalid number value \'' + arg + '\' type ' + typeof arg + '.');
-}
-
-function fromWei(weiInput, unit, optionsInput) {
-  var wei = numberToBN(weiInput); // eslint-disable-line
-  var negative = wei.lt(zero); // eslint-disable-line
-  var base = getValueOfUnit(unit);
-  var baseLength = unitMap[unit].length - 1 || 1;
-  var options = optionsInput || {};
-
-  if (negative) {
-    wei = wei.mul(negative1);
-  }
-
-  var fraction = wei.mod(base).toString(10); // eslint-disable-line
-
-  while (fraction.length < baseLength) {
-    fraction = '0' + fraction;
-  }
-
-  if (!options.pad) {
-    fraction = fraction.match(/^([0-9]*[1-9]|0)(0*)/)[1];
-  }
-
-  var whole = wei.div(base).toString(10); // eslint-disable-line
-
-  if (options.commify) {
-    whole = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  }
-
-  var value = '' + whole + (fraction == '0' ? '' : '.' + fraction); // eslint-disable-line
-
-  if (negative) {
-    value = '-' + value;
-  }
-
-  return value;
-}
-
-function toWei(etherInput, unit) {
-  var ether = numberToString(etherInput); // eslint-disable-line
-  var base = getValueOfUnit(unit);
-  var baseLength = unitMap[unit].length - 1 || 1;
-
-  // Is it negative?
-  var negative = ether.substring(0, 1) === '-'; // eslint-disable-line
-  if (negative) {
-    ether = ether.substring(1);
-  }
-
-  if (ether === '.') {
-    throw new Error('[ethjs-unit] while converting number ' + etherInput + ' to wei, invalid value');
-  }
-
-  // Split it into a whole and fractional part
-  var comps = ether.split('.'); // eslint-disable-line
-  if (comps.length > 2) {
-    throw new Error('[ethjs-unit] while converting number ' + etherInput + ' to wei,  too many decimal points');
-  }
-
-  var whole = comps[0],
-      fraction = comps[1]; // eslint-disable-line
-
-  if (!whole) {
-    whole = '0';
-  }
-  if (!fraction) {
-    fraction = '0';
-  }
-  if (fraction.length > baseLength) {
-    throw new Error('[ethjs-unit] while converting number ' + etherInput + ' to wei, too many decimal places');
-  }
-
-  while (fraction.length < baseLength) {
-    fraction += '0';
-  }
-
-  whole = new BN(whole);
-  fraction = new BN(fraction);
-  var wei = whole.mul(base).add(fraction); // eslint-disable-line
-
-  if (negative) {
-    wei = wei.mul(negative1);
-  }
-
-  return new BN(wei.toString(10), 10);
-}
-
-module.exports = {
-  unitMap: unitMap,
-  numberToString: numberToString,
-  getValueOfUnit: getValueOfUnit,
-  fromWei: fromWei,
-  toWei: toWei
-};
-
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict'
+
 
 exports.byteLength = byteLength
 exports.toByteArray = toByteArray
@@ -5681,9 +5700,9 @@ function fromByteArray (uint8) {
 }
 
 
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
 
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -5772,9 +5791,84 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 }
 
 
-/***/ },
-/* 6 */
-/***/ function(module, exports) {
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var BN = __webpack_require__(0);
+var stripHexPrefix = __webpack_require__(9);
+
+/**
+ * Returns a BN object, converts a number value to a BN
+ * @param {String|Number|Object} `arg` input a string number, hex string number, number, BigNumber or BN object
+ * @return {Object} `output` BN object of the number
+ * @throws if the argument is not an array, object that isn't a bignumber, not a string number or number
+ */
+module.exports = function numberToBN(arg) {
+  if (typeof arg === 'string' || typeof arg === 'number') {
+    var multiplier = new BN(1); // eslint-disable-line
+    var formattedString = String(arg).toLowerCase().trim();
+    var isHexPrefixed = formattedString.substr(0, 2) === '0x' || formattedString.substr(0, 3) === '-0x';
+    var stringArg = stripHexPrefix(formattedString); // eslint-disable-line
+    if (stringArg.substr(0, 1) === '-') {
+      stringArg = stripHexPrefix(stringArg.slice(1));
+      multiplier = new BN(-1, 10);
+    }
+    stringArg = stringArg === '' ? '0' : stringArg;
+
+    if ((!stringArg.match(/^-?[0-9]+$/) && stringArg.match(/^[0-9A-Fa-f]+$/))
+      || stringArg.match(/^[a-fA-F]+$/)
+      || (isHexPrefixed === true && stringArg.match(/^[0-9A-Fa-f]+$/))) {
+      return new BN(stringArg, 16).mul(multiplier);
+    }
+
+    if ((stringArg.match(/^-?[0-9]+$/) || stringArg === '') && isHexPrefixed === false) {
+      return new BN(stringArg, 10).mul(multiplier);
+    }
+  } else if (typeof arg === 'object' && arg.toString && (!arg.pop && !arg.push)) {
+    if (arg.toString(10).match(/^-?[0-9]+$/) && (arg.mul || arg.dividedToIntegerBy)) {
+      return new BN(arg.toString(10), 10);
+    }
+  }
+
+  throw new Error('[number-to-bn] while converting number ' + JSON.stringify(arg) + ' to BN.js instance, error: invalid number value. Value must be an integer, hex string, BN or BigNumber instance. Note, decimals are not supported.');
+}
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isHexPrefixed = __webpack_require__(10);
+
+/**
+ * Removes '0x' from a given `String` is present
+ * @param {String} str the string value
+ * @return {String|Optional} a string by pass if necessary
+ */
+module.exports = function stripHexPrefix(str) {
+  if (typeof str !== 'string') {
+    return str;
+  }
+
+  return isHexPrefixed(str) ? str.slice(2) : str;
+}
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports) {
 
 /**
  * Returns a `Boolean` on whether or not the a `String` starts with '0x'
@@ -5791,90 +5885,7 @@ module.exports = function isHexPrefixed(str) {
 }
 
 
-/***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-
-/***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-var isHexPrefixed = __webpack_require__(6);
-
-/**
- * Removes '0x' from a given `String` is present
- * @param {String} str the string value
- * @return {String|Optional} a string by pass if necessary
- */
-module.exports = function stripHexPrefix(str) {
-  if (typeof str !== 'string') {
-    return str;
-  }
-
-  return isHexPrefixed(str) ? str.slice(2) : str;
-}
-
-
-/***/ },
-/* 9 */
-/***/ function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() { return this; })();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-module.exports = function(module) {
-	if(!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if(!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			configurable: false,
-			get: function() { return module.l; }
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			configurable: false,
-			get: function() { return module.i; }
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-}
-
-
-/***/ }
-/******/ ])
+/***/ })
+/******/ ]);
 });
-;
 //# sourceMappingURL=ethjs-unit.js.map
