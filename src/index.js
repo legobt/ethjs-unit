@@ -7,7 +7,7 @@ Note, Richard is a god of ether gods. Follow and respect him, and use Ethers.io!
 */
 
 const BN = require('bn.js');
-const numberToBN = require('number-to-bn');
+const numberToBN = require('@metamask/number-to-bn');
 
 const zero = new BN(0);
 const negative1 = new BN(-1);
