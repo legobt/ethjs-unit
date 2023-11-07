@@ -68,14 +68,15 @@ function numberToString(arg) {
       throw new Error(`while converting number to string, invalid number value '${arg}', should be a number matching (^-?[0-9.]+).`);
     }
     return arg;
-  } else if (typeof arg === 'number') {
+  }
+  if (typeof arg === 'number') {
     return String(arg);
-  } else if (typeof arg === 'object' && arg.toString && (arg.toTwos || arg.dividedToIntegerBy)) {
+  }
+  if (typeof arg === 'object' && arg.toString && (arg.toTwos || arg.dividedToIntegerBy)) {
     if (arg.toPrecision) {
       return String(arg.toPrecision());
-    } else { // eslint-disable-line
-      return arg.toString(10);
     }
+    return arg.toString(10);
   }
   throw new Error(`while converting number to string, invalid number value '${arg}' type ${typeof arg}.`);
 }
@@ -98,7 +99,7 @@ function fromWei(weiInput, unit, optionsInput) {
   }
 
   if (!options.pad) {
-    fraction = fraction.match(/^([0-9]*[1-9]|0)(0*)/)[1];
+    fraction = fraction.match(/^([0-9]*[1-9]|0)(0*)/)[1]; // eslint-disable-line prefer-destructuring
   }
 
   var whole = wei.div(base).toString(10); // eslint-disable-line
