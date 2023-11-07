@@ -101,8 +101,8 @@
     "@babel/runtime": "^7.0.0"
   },
   "dependencies": {
-    "bn.js": "^5.2.1",
-    "number-to-bn": "1.7.0"
+    "@metamask/number-to-bn": "^1.7.1",
+    "bn.js": "^5.2.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
