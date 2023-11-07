@@ -132,12 +132,12 @@
     "bignumber.js": "^9.1.2",
     "chai": "^4.3.10",
     "cross-env": "^6.0.3",
-    "eslint": "2.10.1",
-    "eslint-config-airbnb": "9.0.1",
-    "eslint-import-resolver-webpack": "0.2.4",
-    "eslint-plugin-import": "1.8.0",
-    "eslint-plugin-jsx-a11y": "1.2.0",
-    "eslint-plugin-react": "5.1.1",
+    "eslint": "^5.4.0",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-import-resolver-webpack": "^0.2.4",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.2",
     "istanbul": "0.4.5",
     "json-loader": "0.5.4",
     "mocha": "^7.1.2",
@@ -201,6 +201,16 @@
       "mocha": true,
       "es6": true
     },
+    "overrides": [
+      {
+        "files": [
+          "src/test/**.js"
+        ],
+        "rules": {
+          "import/no-extraneous-dependencies": 0
+        }
+      }
+    ],
     "parserOptions": {
       "ecmaVersion": 6,
       "sourceType": "module"
