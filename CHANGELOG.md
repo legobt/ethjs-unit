@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ## [0.3.0]
+### Fixed
+- **BREAKING**: Update `bn.js` from `4.11.6` to `^5.2.1` ([#12](https://github.com/MetaMask/ethjs-unit/pull/12))
+- **BREAKING**: Add peerDependency `@babel/runtime@^7.0.0` ([#11](https://github.com/MetaMask/ethjs-unit/pull/11))
+- Update from `number-to-bn@1.7.0` to `@metamask/number-to-bn@^1.7.1` ([#12](https://github.com/MetaMask/ethjs-unit/pull/12))
+- Upgrade babel from 6 to 7 ([#11](https://github.com/MetaMask/ethjs-unit/pull/11))
+- Upgrade webpack from 2 to 3 ([#10](https://github.com/MetaMask/ethjs-unit/pull/10))
 
 ## [0.2.0]
 ### Changed
