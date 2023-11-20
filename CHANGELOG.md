@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1]
+### Fixed
+- Identical to `0.2.0` except `lib/index.js`, which was missing in that release, is included
+
 ## [0.2.0]
 ### Changed
 - Rename package from `ethjs-unit` to `@metamask/ethjs-unit` ([#7](https://github.com/MetaMask/ethjs-unit/pull/7))
