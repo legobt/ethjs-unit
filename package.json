@@ -1,6 +1,6 @@
 {
   "name": "@metamask/ethjs-unit",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A simple module for handling Ethereum units (e.g. 'ether', 'wei', etc...)",
   "main": "lib/index.js",
   "files": [

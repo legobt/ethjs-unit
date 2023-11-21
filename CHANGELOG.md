@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0]
+### Fixed
+- **BREAKING**: Update `bn.js` from `4.11.6` to `^5.2.1` ([#12](https://github.com/MetaMask/ethjs-unit/pull/12))
+- **BREAKING**: Add peerDependency `@babel/runtime@^7.0.0` ([#11](https://github.com/MetaMask/ethjs-unit/pull/11))
+- Update from `number-to-bn@1.7.0` to `@metamask/number-to-bn@^1.7.1` ([#12](https://github.com/MetaMask/ethjs-unit/pull/12))
+- Upgrade babel from 6 to 7 ([#11](https://github.com/MetaMask/ethjs-unit/pull/11))
+- Upgrade webpack from 2 to 3 ([#10](https://github.com/MetaMask/ethjs-unit/pull/10))
+
 ## [0.2.0]
 ### Changed
 - Rename package from `ethjs-unit` to `@metamask/ethjs-unit` ([#7](https://github.com/MetaMask/ethjs-unit/pull/7))
@@ -47,7 +55,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Linting
   - Basic exports
 
-[Unreleased]: https://github.com/MetaMask/ethjs-unit/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/MetaMask/ethjs-unit/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/MetaMask/ethjs-unit/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/MetaMask/ethjs-unit/compare/v0.1.6...v0.2.0
 [0.1.6]: https://github.com/MetaMask/ethjs-unit/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/MetaMask/ethjs-unit/compare/v0.1.3...v0.1.5
